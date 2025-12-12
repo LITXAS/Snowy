@@ -353,7 +353,7 @@ function renderizarProductosPorCategoria(categoria) {
         const imagenSrcEncoded = codificarURLImagen(imagenSrc);
         productCard.innerHTML = `
             <div class="product-image">
-                <img src="${imagenSrcEncoded}" alt="${producto.nombre}" />
+                <img src="${imagenSrcEncoded}" alt="${producto.nombre}" loading="lazy" />
             </div>
             <div class="product-info">
                 <div class="product-category">${producto.categoria}</div>
@@ -410,12 +410,19 @@ function inicializarFiltros() {
     
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
+            // Obtener el filtro
+            const filtro = button.getAttribute('data-filter');
+            
+            // Si el filtro es "camisetas", redirigir a nuevos-ingresos.html
+            if (filtro === 'camisetas') {
+                window.location.href = 'nuevos-ingresos.html';
+                return;
+            }
+            
             // Remover clase active de todos los botones
             filterButtons.forEach(btn => btn.classList.remove('active'));
             // Agregar clase active al botón clickeado
             button.classList.add('active');
-            // Obtener el filtro
-            const filtro = button.getAttribute('data-filter');
             
             // Categorías que deben mostrarse como grid completo
             const categoriasGrid = ['chaquetas', 'accesorios'];
@@ -1145,6 +1152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         inicializarAnimacionesScroll();
         animarProductos();
         animarTitulosCategorias();
+        animarSeccionContacto();
     }, 500);
     
     // Evento para cerrar detalle
@@ -1179,6 +1187,26 @@ function animarTitulosCategorias() {
     titulos.forEach(titulo => {
         observer.observe(titulo);
     });
+}
+
+// Función para animar sección de contacto
+function animarSeccionContacto() {
+    const contactSection = document.querySelector('.contact-section');
+    if (contactSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        observer.observe(contactSection);
+    }
 }
 
 // Smooth scroll para los enlaces del menú
@@ -1226,7 +1254,7 @@ function renderizarCatalogoCompleto(categoria) {
         const imagenSrcEncoded = codificarURLImagen(imagenSrc);
         productCard.innerHTML = `
             <div class="product-image">
-                <img src="${imagenSrcEncoded}" alt="${producto.nombre}" />
+                <img src="${imagenSrcEncoded}" alt="${producto.nombre}" loading="lazy" />
             </div>
             <div class="product-info">
                 <div class="product-category">${producto.categoria}</div>
@@ -1302,7 +1330,7 @@ function ordenarProductos(orden, productosLista) {
         const imagenSrcEncoded = codificarURLImagen(imagenSrc);
         productCard.innerHTML = `
             <div class="product-image">
-                <img src="${imagenSrcEncoded}" alt="${producto.nombre}" />
+                <img src="${imagenSrcEncoded}" alt="${producto.nombre}" loading="lazy" />
             </div>
             <div class="product-info">
                 <div class="product-category">${producto.categoria}</div>
