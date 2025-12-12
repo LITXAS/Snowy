@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Nuevos Ingresos - Catálogo de Ropa">
+    <title>Nuevos Ingresos - Catálogo de Ropa</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">Snowy</a></h1>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="index.html#productos">Productos</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Breadcrumb -->
+        <section class="breadcrumb-section">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Inicio</a> / <span>NUEVOS INGRESOS</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters and Sort -->
+        <section class="catalog-controls">
+            <div class="container">
+                <div class="controls-wrapper">
+                    <div class="controls-left">
+                        <button class="filter-toggle-btn" id="filterToggle">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="4" y1="6" x2="20" y2="6"></line>
+                                <line x1="4" y1="12" x2="20" y2="12"></line>
+                                <line x1="4" y1="18" x2="20" y2="18"></line>
+                            </svg>
+                            Mostrar filtros
+                        </button>
+                        <span class="products-count" id="productsCount">0 productos</span>
+                    </div>
+                    <div class="controls-right">
+                        <select class="sort-select" id="sortSelect">
+                            <option value="default">Ordenar por Características</option>
+                            <option value="price-asc">Precio: Menor a Mayor</option>
+                            <option value="price-desc">Precio: Mayor a Menor</option>
+                            <option value="name-asc">Nombre: A-Z</option>
+                            <option value="name-desc">Nombre: Z-A</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Grid -->
+        <section class="catalog-products">
+            <div class="container">
+                <div class="catalog-grid" id="catalogGrid">
+                    <!-- Los productos se cargarán dinámicamente -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Detalle del Producto -->
+        <section class="product-detail" id="productDetail" style="display: none;">
+            <div class="container">
+                <button class="close-detail-btn" id="closeDetailBtn">&times;</button>
+                <div class="detail-content">
+                    <div class="detail-images">
+                        <div class="main-image-container">
+                            <div class="main-image" id="mainImage"></div>
+                        </div>
+                        <div class="thumbnail-images" id="thumbnailImages">
+                            <!-- Las miniaturas se cargarán dinámicamente -->
+                        </div>
+                    </div>
+                    <div class="detail-info">
+                        <div class="detail-category" id="detailCategory"></div>
+                        <h2 class="detail-name" id="detailName"></h2>
+                        <div class="detail-price" id="detailPrice"></div>
+                        <div class="detail-description" id="detailDescription"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Catálogo de Ropa. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Configurar categoría para esta página
+        const CATEGORIA_PAGINA = 'camisetas'; // Nuevos ingresos muestra camisetas
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof renderizarCatalogoCompleto === 'function') {
+                renderizarCatalogoCompleto(CATEGORIA_PAGINA);
+            }
+        });
+    </script>
+</body>
+</html>
+

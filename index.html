@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Catálogo de ropa minimalista con diseño elegante">
+    <title>Catálogo de Ropa - Minimalista</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">CATÁLOGO</h1>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#inicio" class="active">Inicio</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Snowy</h2>
+                <p>Ropa elegante y atemporal</p>
+            </div>
+        </section>
+
+        <section class="filters">
+            <div class="container">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="todos">Todos</button>
+                    <button class="filter-btn" data-filter="camisetas">Camisetas</button>
+                    <button class="filter-btn" data-filter="pantalones">Pantalones</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="products" id="productos">
+            <div class="container">
+                <!-- Carrusel de Camisetas -->
+                <div class="category-section">
+                    <h3 class="category-title">Camisetas</h3>
+                    <div class="products-carousel-wrapper" data-category="camisetas">
+                        <button class="carousel-btn carousel-btn-left" data-category="camisetas" aria-label="Anterior">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 18l-6-6 6-6"/>
+                            </svg>
+                        </button>
+                        <div class="products-carousel" id="productsGrid-camisetas">
+                            <!-- Los productos se cargarán dinámicamente -->
+                        </div>
+                        <button class="carousel-btn carousel-btn-right" data-category="camisetas" aria-label="Siguiente">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Carrusel de Pantalones -->
+                <div class="category-section">
+                    <h3 class="category-title">Pantalones</h3>
+                    <div class="products-carousel-wrapper" data-category="pantalones">
+                        <button class="carousel-btn carousel-btn-left" data-category="pantalones" aria-label="Anterior">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 18l-6-6 6-6"/>
+                            </svg>
+                        </button>
+                        <div class="products-carousel" id="productsGrid-pantalones">
+                            <!-- Los productos se cargarán dinámicamente -->
+                        </div>
+                        <button class="carousel-btn carousel-btn-right" data-category="pantalones" aria-label="Siguiente">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sección de Detalle del Producto -->
+        <section class="product-detail" id="productDetail" style="display: none;">
+            <div class="container">
+                <button class="close-detail-btn" id="closeDetailBtn">&times;</button>
+                <div class="detail-content">
+                    <div class="detail-images">
+                        <div class="main-image-container">
+                            <div class="main-image" id="mainImage"></div>
+                        </div>
+                        <div class="thumbnail-images" id="thumbnailImages">
+                            <!-- Las miniaturas se cargarán dinámicamente -->
+                        </div>
+                    </div>
+                    <div class="detail-info">
+                        <div class="detail-category" id="detailCategory"></div>
+                        <h2 class="detail-name" id="detailName"></h2>
+                        <div class="detail-price" id="detailPrice"></div>
+                        <div class="detail-description" id="detailDescription"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Categorías -->
+        <section class="categories-grid" id="categorias">
+            <div class="container">
+                <div class="categories-wrapper">
+                    <a href="nuevos-ingresos.html" class="category-tile category-tile-1">
+                        <div class="category-tile-content">
+                            <h2 class="category-tile-title">NUEVOS INGRESOS</h2>
+                            <p class="category-tile-subtitle">STUDIO</p>
+                        </div>
+                    </a>
+                    <a href="pantalones.html" class="category-tile category-tile-2">
+                        <div class="category-tile-content">
+                            <h2 class="category-tile-title">NUESTROS PANTALONES</h2>
+                        </div>
+                    </a>
+                    <div class="category-tile category-tile-3 coming-soon">
+                        <div class="category-tile-content">
+                            <h2 class="category-tile-title">ACCESORIOS</h2>
+                            <p class="coming-soon-text">COMING SOON</p>
+                        </div>
+                    </div>
+                    <a href="basicos.html" class="category-tile category-tile-4">
+                        <div class="category-tile-content">
+                            <h2 class="category-tile-title">NUESTROS BASICOS</h2>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Catálogo de Ropa. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
