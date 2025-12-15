@@ -1,3 +1,224 @@
+// Sistema de Carrito de Compras
+let carrito = [];
+
+// Variable para guardar la referencia al elemento del producto seleccionado
+let productoSeleccionadoElement = null;
+
+// Cargar carrito desde localStorage
+function cargarCarrito() {
+    const carritoGuardado = localStorage.getItem('carrito');
+    if (carritoGuardado) {
+        carrito = JSON.parse(carritoGuardado);
+        actualizarContadorCarrito();
+    }
+}
+
+// Guardar carrito en localStorage
+function guardarCarrito() {
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    actualizarContadorCarrito();
+}
+
+// Actualizar contador del carrito
+function actualizarContadorCarrito() {
+    const cartCount = document.getElementById('cartCount');
+    if (cartCount) {
+        const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+        cartCount.textContent = totalItems;
+        if (totalItems > 0) {
+            cartCount.style.display = 'flex';
+        } else {
+            cartCount.style.display = 'none';
+        }
+    }
+}
+
+// Agregar producto al carrito
+function agregarAlCarrito(producto) {
+    const productoExistente = carrito.find(item => item.id === producto.id);
+    
+    if (productoExistente) {
+        productoExistente.cantidad += 1;
+    } else {
+        carrito.push({
+            id: producto.id,
+            nombre: producto.nombre,
+            categoria: producto.categoria,
+            precio: producto.precio,
+            imagen: producto.imagen,
+            cantidad: 1
+        });
+    }
+    
+    guardarCarrito();
+    mostrarNotificacion('Producto agregado al carrito');
+}
+
+// Eliminar producto del carrito
+function eliminarDelCarrito(productoId) {
+    carrito = carrito.filter(item => item.id !== productoId);
+    guardarCarrito();
+    renderizarCarrito();
+    mostrarNotificacion('Producto eliminado del carrito');
+}
+
+// Incrementar cantidad de un producto
+function incrementarCantidad(productoId) {
+    const item = carrito.find(item => item.id === productoId);
+    if (item) {
+        item.cantidad += 1;
+        guardarCarrito();
+        renderizarCarrito();
+    }
+}
+
+// Decrementar cantidad de un producto
+function decrementarCantidad(productoId) {
+    const item = carrito.find(item => item.id === productoId);
+    if (item) {
+        if (item.cantidad > 1) {
+            item.cantidad -= 1;
+            guardarCarrito();
+            renderizarCarrito();
+        } else {
+            // Si la cantidad es 1, eliminar el producto
+            eliminarDelCarrito(productoId);
+        }
+    }
+}
+
+// Calcular total del carrito
+function calcularTotalCarrito() {
+    return carrito.reduce((total, item) => {
+        const precio = parseFloat(item.precio.replace('$', '').replace('.', '').replace(',', ''));
+        return total + (precio * item.cantidad);
+    }, 0);
+}
+
+// Formatear precio
+function formatearPrecio(monto) {
+    return new Intl.NumberFormat('es-AR', {
+        style: 'currency',
+        currency: 'ARS',
+        minimumFractionDigits: 0
+    }).format(monto).replace('ARS', '$');
+}
+
+// Función auxiliar para crear botón de agregar al carrito
+function crearBotonAgregarCarrito(producto) {
+    return `
+        <button class="add-to-cart-btn" data-product-id="${producto.id}" aria-label="Agregar al carrito">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+        </button>
+    `;
+}
+
+// Renderizar carrito
+function renderizarCarrito() {
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    
+    if (!cartItems) return;
+    
+    if (carrito.length === 0) {
+        cartItems.innerHTML = `
+            <div class="cart-empty">
+                <p>Tu carrito está vacío</p>
+            </div>
+        `;
+        if (cartTotal) cartTotal.textContent = '$0';
+        if (checkoutBtn) checkoutBtn.disabled = true;
+        return;
+    }
+    
+    cartItems.innerHTML = '';
+    carrito.forEach(item => {
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        const imagenSrcEncoded = codificarURLImagen(item.imagen || 'Image/coming soo.jpg');
+        
+        // Calcular precio total del item (precio unitario * cantidad)
+        const precioUnitario = parseFloat(item.precio.replace('$', '').replace('.', '').replace(',', ''));
+        const precioTotal = precioUnitario * item.cantidad;
+        const precioTotalFormateado = formatearPrecio(precioTotal);
+        
+        cartItem.innerHTML = `
+            <img src="${imagenSrcEncoded}" alt="${item.nombre}" class="cart-item-image" loading="lazy">
+            <div class="cart-item-info">
+                <h4 class="cart-item-name">${item.nombre}</h4>
+                <p class="cart-item-category">${item.categoria}</p>
+                <p class="cart-item-price">${precioTotalFormateado}</p>
+                <div class="cart-item-quantity">
+                    <button class="quantity-btn quantity-decrease" onclick="decrementarCantidad(${item.id})" aria-label="Disminuir cantidad">−</button>
+                    <span class="quantity-value">${item.cantidad}</span>
+                    <button class="quantity-btn quantity-increase" onclick="incrementarCantidad(${item.id})" aria-label="Aumentar cantidad">+</button>
+                </div>
+            </div>
+            <button class="cart-item-remove" onclick="eliminarDelCarrito(${item.id})" aria-label="Eliminar producto">&times;</button>
+        `;
+        cartItems.appendChild(cartItem);
+    });
+    
+    const total = calcularTotalCarrito();
+    if (cartTotal) cartTotal.textContent = formatearPrecio(total);
+    if (checkoutBtn) checkoutBtn.disabled = false;
+}
+
+// Mostrar/ocultar modal del carrito
+function toggleCarrito() {
+    const cartModal = document.getElementById('cartModal');
+    if (cartModal) {
+        cartModal.classList.toggle('active');
+        if (cartModal.classList.contains('active')) {
+            renderizarCarrito();
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+}
+
+// Cerrar modal del carrito
+function cerrarCarrito() {
+    const cartModal = document.getElementById('cartModal');
+    if (cartModal) {
+        cartModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Mostrar notificación
+function mostrarNotificacion(mensaje) {
+    // Crear elemento de notificación
+    const notificacion = document.createElement('div');
+    notificacion.style.cssText = `
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-blue-deep) 100%);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+        z-index: 10001;
+        animation: slideInRight 0.3s ease;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+    `;
+    notificacion.textContent = mensaje;
+    document.body.appendChild(notificacion);
+    
+    setTimeout(() => {
+        notificacion.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => {
+            document.body.removeChild(notificacion);
+        }, 300);
+    }, 2000);
+}
+
 // Lista de todas las imágenes de camisetas en la carpeta
 const imagenesCamisetas = [
     "Image/Camisetas/boxy Waffle frizado negro 1.png",
@@ -146,6 +367,10 @@ function obtenerNombreBase(imagen) {
 function formatearNombreProducto(nombreBase) {
     // Remover prefijos comunes como "r.", "r.boxy", etc.
     let nombre = nombreBase.replace(/^r\./i, '').trim();
+    
+    // Remover la palabra "remera" (al inicio o en cualquier parte, case insensitive)
+    nombre = nombre.replace(/^remera\s+/i, '').replace(/\s+remera\s+/i, ' ').replace(/\s+remera$/i, '').trim();
+    
     // Capitalizar primera letra de cada palabra
     // Manejar tanto espacios como guiones
     if (nombre.includes('-')) {
@@ -330,14 +555,36 @@ function animarProductos() {
     });
 }
 
+// Función para obtener el tipo de corte de una camiseta
+function obtenerTipoCorte(nombreProducto) {
+    const nombreLower = nombreProducto.toLowerCase();
+    if (nombreLower.includes('boxy')) {
+        return 'boxy';
+    } else if (nombreLower.includes('oversized')) {
+        return 'oversized';
+    } else if (nombreLower.includes('regular')) {
+        return 'regular';
+    } else {
+        return 'otros';
+    }
+}
+
 // Función para renderizar productos por categoría
-function renderizarProductosPorCategoria(categoria) {
+function renderizarProductosPorCategoria(categoria, filtroCorte = null) {
     const productsGrid = document.getElementById(`productsGrid-${categoria}`);
     if (!productsGrid) return;
     
     productsGrid.innerHTML = '';
 
-    const productosFiltrados = productos.filter(producto => producto.categoria === categoria);
+    let productosFiltrados = productos.filter(producto => producto.categoria === categoria);
+    
+    // Si hay un filtro de corte y es la categoría de camisetas, aplicar el filtro
+    if (filtroCorte && categoria === 'camisetas' && filtroCorte !== 'todos') {
+        productosFiltrados = productosFiltrados.filter(producto => {
+            const tipoCorte = obtenerTipoCorte(producto.nombre);
+            return tipoCorte === filtroCorte;
+        });
+    }
 
     if (productosFiltrados.length === 0) {
         productsGrid.innerHTML = '<p style="text-align: center; color: var(--color-gray-medium); padding: 40px;">No hay productos en esta categoría.</p>';
@@ -360,12 +607,24 @@ function renderizarProductosPorCategoria(categoria) {
                 <h3 class="product-name">${producto.nombre}</h3>
                 <div class="product-price">${producto.precio}</div>
             </div>
+            ${crearBotonAgregarCarrito(producto)}
         `;
         
         // Agregar evento click para mostrar detalle
         productCard.addEventListener('click', () => {
+            // Guardar referencia al elemento para poder volver a él
+            productoSeleccionadoElement = productCard;
             mostrarDetalleProducto(producto);
         });
+        
+        // Agregar evento al botón de carrito
+        const addToCartBtn = productCard.querySelector('.add-to-cart-btn');
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                agregarAlCarrito(producto);
+            });
+        }
         
         productsGrid.appendChild(productCard);
     });
@@ -379,10 +638,10 @@ function renderizarProductosPorCategoria(categoria) {
 }
 
 // Función para renderizar todos los productos por categoría
-function renderizarTodosLosProductos() {
+function renderizarTodosLosProductos(filtroCorte = null) {
     const categorias = ['camisetas', 'pantalones'];
     categorias.forEach(categoria => {
-        renderizarProductosPorCategoria(categoria);
+        renderizarProductosPorCategoria(categoria, filtroCorte);
     });
 }
 
@@ -413,66 +672,54 @@ function inicializarFiltros() {
             // Obtener el filtro
             const filtro = button.getAttribute('data-filter');
             
-            // Si el filtro es "camisetas", redirigir a nuevos-ingresos.html
-            if (filtro === 'camisetas') {
-                window.location.href = 'nuevos-ingresos.html';
-                return;
-            }
-            
             // Remover clase active de todos los botones
             filterButtons.forEach(btn => btn.classList.remove('active'));
             // Agregar clase active al botón clickeado
             button.classList.add('active');
             
-            // Categorías que deben mostrarse como grid completo
-            const categoriasGrid = ['chaquetas', 'accesorios'];
+            // Filtros de corte de camisetas
+            const filtrosCorte = ['boxy', 'oversized', 'regular', 'otros'];
             
-            // Mostrar/ocultar secciones según el filtro
-            const categorias = ['camisetas', 'pantalones'];
-            categorias.forEach(categoria => {
-                const carousel = document.getElementById(`productsGrid-${categoria}`);
-                const section = carousel ? carousel.closest('.category-section') : null;
-                const wrapper = carousel ? carousel.closest('.products-carousel-wrapper') : null;
-                const leftBtn = wrapper ? wrapper.querySelector('.carousel-btn-left') : null;
-                const rightBtn = wrapper ? wrapper.querySelector('.carousel-btn-right') : null;
-                
-                if (section) {
-                    if (filtro === 'todos' || filtro === categoria) {
-                        section.style.display = 'block';
-                        
-                        // Si es una categoría que debe mostrarse como grid y está filtrada
-                        if (categoriasGrid.includes(categoria) && filtro === categoria) {
-                            // Cambiar a modo grid completo
-                            carousel.classList.add('products-grid-full');
-                            wrapper.classList.add('grid-mode');
-                            // Ocultar botones del carrusel
-                            if (leftBtn) leftBtn.style.display = 'none';
-                            if (rightBtn) rightBtn.style.display = 'none';
-                        } else {
-                            // Modo carrusel normal
-                            carousel.classList.remove('products-grid-full');
-                            wrapper.classList.remove('grid-mode');
-                            // Mostrar botones del carrusel (restaurar display original)
-                            if (leftBtn) {
-                                leftBtn.style.display = 'flex';
-                                leftBtn.style.opacity = '1';
-                                leftBtn.style.pointerEvents = 'auto';
-                            }
-                            if (rightBtn) {
-                                rightBtn.style.display = 'flex';
-                                rightBtn.style.opacity = '1';
-                                rightBtn.style.pointerEvents = 'auto';
-                            }
-                            // Reinicializar carrusel para actualizar estado de botones
-                            setTimeout(() => {
-                                inicializarCarruselPorCategoria(categoria);
-                            }, 100);
-                        }
-                    } else {
-                        section.style.display = 'none';
-                    }
+            // Si es un filtro de corte, solo mostrar camisetas filtradas
+            if (filtrosCorte.includes(filtro)) {
+                // Ocultar pantalones
+                const pantalonesCarousel = document.getElementById('productsGrid-pantalones');
+                const pantalonesSection = pantalonesCarousel ? pantalonesCarousel.closest('.category-section') : null;
+                if (pantalonesSection) {
+                    pantalonesSection.style.display = 'none';
                 }
-            });
+                
+                // Mostrar y filtrar camisetas
+                const camisetasCarousel = document.getElementById('productsGrid-camisetas');
+                const camisetasSection = camisetasCarousel ? camisetasCarousel.closest('.category-section') : null;
+                if (camisetasSection) {
+                    camisetasSection.style.display = 'block';
+                    renderizarProductosPorCategoria('camisetas', filtro);
+                    setTimeout(() => {
+                        inicializarCarruselPorCategoria('camisetas');
+                    }, 100);
+                }
+            } else if (filtro === 'todos') {
+                // Mostrar todos los productos sin filtro de corte
+                const categorias = ['camisetas', 'pantalones'];
+                categorias.forEach(categoria => {
+                    const carousel = document.getElementById(`productsGrid-${categoria}`);
+                    const section = carousel ? carousel.closest('.category-section') : null;
+                    const wrapper = carousel ? carousel.closest('.products-carousel-wrapper') : null;
+                    const leftBtn = wrapper ? wrapper.querySelector('.carousel-btn-left') : null;
+                    const rightBtn = wrapper ? wrapper.querySelector('.carousel-btn-right') : null;
+                    
+                    if (section) {
+                        section.style.display = 'block';
+                        renderizarProductosPorCategoria(categoria, null);
+                        
+                        // Reinicializar carrusel
+                        setTimeout(() => {
+                            inicializarCarruselPorCategoria(categoria);
+                        }, 100);
+                    }
+                });
+            }
         });
     });
 }
@@ -667,6 +914,19 @@ function mostrarDetalleProducto(producto) {
     detailCategory.textContent = producto.categoria;
     detailPrice.textContent = producto.precio;
     detailDescription.textContent = producto.descripcion || '';
+    
+    // Configurar botón de agregar al carrito
+    const detailAddToCartBtn = document.getElementById('detailAddToCartBtn');
+    if (detailAddToCartBtn) {
+        // Remover event listeners anteriores
+        const newBtn = detailAddToCartBtn.cloneNode(true);
+        detailAddToCartBtn.parentNode.replaceChild(newBtn, detailAddToCartBtn);
+        
+        // Agregar nuevo event listener
+        newBtn.addEventListener('click', () => {
+            agregarAlCarrito(producto);
+        });
+    }
     
     // Limpiar imágenes anteriores
     thumbnailImages.innerHTML = '';
@@ -864,8 +1124,22 @@ function cerrarDetalle() {
     const detailSection = document.getElementById('productDetail');
     detailSection.style.display = 'none';
     
-    // Scroll de vuelta a los productos
-    document.getElementById('productos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Scroll de vuelta al elemento del producto seleccionado
+    if (productoSeleccionadoElement) {
+        // Usar setTimeout para asegurar que el DOM se actualice antes del scroll
+        setTimeout(() => {
+            productoSeleccionadoElement.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center',
+                inline: 'nearest'
+            });
+            // Limpiar la referencia después de hacer scroll
+            productoSeleccionadoElement = null;
+        }, 100);
+    } else {
+        // Fallback: si no hay referencia, volver a la sección de productos
+        document.getElementById('productos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 }
 
 // Función para animar elementos al entrar en el viewport
@@ -1135,6 +1409,53 @@ function inicializarCarrusel() {
 
 // Inicializar cuando se carga la página
 document.addEventListener('DOMContentLoaded', () => {
+    // Cargar carrito desde localStorage
+    cargarCarrito();
+    
+    // Inicializar eventos del carrito
+    const cartBtn = document.getElementById('cartBtn');
+    const closeCartBtn = document.getElementById('closeCartBtn');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const cartModalOverlay = document.querySelector('.cart-modal-overlay');
+    
+    if (cartBtn) {
+        cartBtn.addEventListener('click', toggleCarrito);
+    }
+    
+    if (closeCartBtn) {
+        closeCartBtn.addEventListener('click', cerrarCarrito);
+    }
+    
+    if (cartModalOverlay) {
+        cartModalOverlay.addEventListener('click', cerrarCarrito);
+    }
+    
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            if (carrito.length > 0) {
+                // Crear mensaje para WhatsApp con los productos del carrito (solo nombre y cantidad)
+                const productosTexto = carrito.map(item => 
+                    `• ${item.nombre} x${item.cantidad}`
+                ).join('%0A');
+                const mensaje = `Hola, quiero consultar talles para los siguientes productos:%0A%0A${productosTexto}`;
+                
+                // Abrir WhatsApp con el mensaje
+                const whatsappUrl = `https://wa.me/5492962409327?text=${mensaje}`;
+                window.open(whatsappUrl, '_blank');
+            }
+        });
+    }
+    
+    // Cerrar carrito con ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const cartModal = document.getElementById('cartModal');
+            if (cartModal && cartModal.classList.contains('active')) {
+                cerrarCarrito();
+            }
+        }
+    });
+    
     // Animar hero inicialmente
     animarHeroInicial();
     
@@ -1261,12 +1582,24 @@ function renderizarCatalogoCompleto(categoria) {
                 <h3 class="product-name">${producto.nombre}</h3>
                 <div class="product-price">${producto.precio}</div>
             </div>
+            ${crearBotonAgregarCarrito(producto)}
         `;
         
         // Agregar evento click para mostrar detalle
         productCard.addEventListener('click', () => {
+            // Guardar referencia al elemento para poder volver a él
+            productoSeleccionadoElement = productCard;
             mostrarDetalleProducto(producto);
         });
+        
+        // Agregar evento al botón de carrito
+        const addToCartBtn = productCard.querySelector('.add-to-cart-btn');
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                agregarAlCarrito(producto);
+            });
+        }
         
         catalogGrid.appendChild(productCard);
     });
@@ -1337,12 +1670,24 @@ function ordenarProductos(orden, productosLista) {
                 <h3 class="product-name">${producto.nombre}</h3>
                 <div class="product-price">${producto.precio}</div>
             </div>
+            ${crearBotonAgregarCarrito(producto)}
         `;
         
         // Agregar evento click para mostrar detalle
         productCard.addEventListener('click', () => {
+            // Guardar referencia al elemento para poder volver a él
+            productoSeleccionadoElement = productCard;
             mostrarDetalleProducto(producto);
         });
+        
+        // Agregar evento al botón de carrito
+        const addToCartBtn = productCard.querySelector('.add-to-cart-btn');
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                agregarAlCarrito(producto);
+            });
+        }
         
         catalogGrid.appendChild(productCard);
     });

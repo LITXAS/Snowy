@@ -56,6 +56,16 @@
                         </select>
                     </div>
                 </div>
+                <!-- Panel de Filtros -->
+                <div class="filters-panel" id="filtersPanel" style="display: none;">
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-filter="todos">Todos</button>
+                        <button class="filter-btn" data-filter="boxy">Boxy</button>
+                        <button class="filter-btn" data-filter="oversized">Oversized</button>
+                        <button class="filter-btn" data-filter="regular">Regular</button>
+                        <button class="filter-btn" data-filter="otros">Otros</button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -102,11 +112,121 @@
     <script>
         // Configurar categoría para esta página
         const CATEGORIA_PAGINA = 'camisetas'; // Nuevos ingresos muestra camisetas
+        let filtroCorteActual = 'todos';
+        
         document.addEventListener('DOMContentLoaded', () => {
-            if (typeof renderizarCatalogoCompleto === 'function') {
-                renderizarCatalogoCompleto(CATEGORIA_PAGINA);
+            // Inicializar filtros
+            const filterToggle = document.getElementById('filterToggle');
+            const filtersPanel = document.getElementById('filtersPanel');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            // Toggle panel de filtros
+            if (filterToggle && filtersPanel) {
+                filterToggle.addEventListener('click', () => {
+                    const isVisible = filtersPanel.style.display !== 'none';
+                    filtersPanel.style.display = isVisible ? 'none' : 'block';
+                    const svg = filterToggle.querySelector('svg');
+                    filterToggle.innerHTML = '';
+                    filterToggle.appendChild(svg);
+                    filterToggle.appendChild(document.createTextNode(isVisible ? ' Mostrar filtros' : ' Ocultar filtros'));
+                });
             }
+            
+            // Event listeners para filtros de corte
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remover clase active de todos los botones
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Agregar clase active al botón clickeado
+                    button.classList.add('active');
+                    
+                    // Obtener el filtro
+                    const filtro = button.getAttribute('data-filter');
+                    filtroCorteActual = filtro;
+                    
+                    // Renderizar productos con el filtro aplicado
+                    renderizarCatalogoCompletoConFiltro(CATEGORIA_PAGINA, filtro);
+                });
+            });
+            
+            // Renderizar catálogo inicial
+            renderizarCatalogoCompletoConFiltro(CATEGORIA_PAGINA, 'todos');
         });
+        
+        // Función para renderizar catálogo con filtro de corte
+        function renderizarCatalogoCompletoConFiltro(categoria, filtroCorte) {
+            const catalogGrid = document.getElementById('catalogGrid');
+            const productsCount = document.getElementById('productsCount');
+            
+            if (!catalogGrid) return;
+            
+            catalogGrid.innerHTML = '';
+            
+            // Filtrar productos por categoría
+            let productosFiltrados = productos.filter(producto => producto.categoria === categoria);
+            
+            // Aplicar filtro de corte si no es "todos"
+            if (filtroCorte && filtroCorte !== 'todos') {
+                productosFiltrados = productosFiltrados.filter(producto => {
+                    const tipoCorte = obtenerTipoCorte(producto.nombre);
+                    return tipoCorte === filtroCorte;
+                });
+            }
+            
+            // Actualizar contador
+            if (productsCount) {
+                productsCount.textContent = `${productosFiltrados.length} productos`;
+            }
+            
+            if (productosFiltrados.length === 0) {
+                catalogGrid.innerHTML = '<p style="text-align: center; color: var(--color-gray-medium); padding: 40px; grid-column: 1 / -1;">No hay productos en esta categoría.</p>';
+                return;
+            }
+            
+            // Renderizar productos
+            productosFiltrados.forEach((producto) => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.setAttribute('data-product-id', producto.id);
+                const imagenSrc = producto.imagen || 'Image/coming soo.jpg';
+                const imagenSrcEncoded = codificarURLImagen(imagenSrc);
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${imagenSrcEncoded}" alt="${producto.nombre}" loading="lazy" />
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">${producto.categoria}</div>
+                        <h3 class="product-name">${producto.nombre}</h3>
+                        <div class="product-price">${producto.precio}</div>
+                    </div>
+                    ${crearBotonAgregarCarrito(producto)}
+                `;
+                
+                // Agregar evento click para mostrar detalle
+                productCard.addEventListener('click', () => {
+                    productoSeleccionadoElement = productCard;
+                    mostrarDetalleProducto(producto);
+                });
+                
+                // Agregar evento al botón de carrito
+                const addToCartBtn = productCard.querySelector('.add-to-cart-btn');
+                if (addToCartBtn) {
+                    addToCartBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        agregarAlCarrito(producto);
+                    });
+                }
+                
+                catalogGrid.appendChild(productCard);
+            });
+            
+            // Animar productos después de renderizar
+            setTimeout(() => {
+                if (typeof animarProductos === 'function') {
+                    animarProductos();
+                }
+            }, 100);
+        }
     </script>
 </body>
 </html>
