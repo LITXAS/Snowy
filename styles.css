@@ -286,6 +286,7 @@ header {
     top: 0;
     z-index: 100;
     box-shadow: 0 2px 12px rgba(37, 99, 235, 0.06);
+    width: 100%;
 }
 
 header .container {
@@ -381,7 +382,11 @@ header nav {
 
 @media (max-width: 480px) {
     .cart-btn {
-        margin-left: 10px;
+        margin-left: 0;
+    }
+    
+    header nav {
+        margin-left: auto;
     }
 
     .cart-icon {
@@ -421,7 +426,7 @@ header nav {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.7);
     z-index: 1;
     pointer-events: none;
 }
@@ -491,7 +496,8 @@ header nav {
 
 @media (max-width: 480px) {
     .hero {
-        padding: 40px 0;
+        padding: 20px 0;
+        min-height: auto;
     }
 }
 
@@ -1124,6 +1130,7 @@ header nav {
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 1px;
+    margin-top: 20px;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -1893,8 +1900,9 @@ footer p {
 
 @media (max-width: 480px) {
     .hero {
-        padding: 40px 0;
+        padding: 20px 0;
         background-size: 200px auto;
+        min-height: auto;
     }
 
     .hero h2 {
@@ -1913,9 +1921,14 @@ footer p {
     }
 
     header .container {
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
+        justify-content: space-between;
         gap: 12px;
+    }
+    
+    header nav {
+        margin-left: auto;
     }
 
     .logo {
@@ -2636,4 +2649,5 @@ footer p {
         opacity: 0;
     }
 }
+
 
