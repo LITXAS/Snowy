@@ -1482,6 +1482,19 @@ header nav {
     background-size: cover;
     background-position: center;
     background-blend-mode: overlay;
+    position: relative;
+}
+
+.category-tile-1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+    pointer-events: none;
 }
 
 .category-tile-2 {
@@ -1500,7 +1513,7 @@ header nav {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     z-index: 1;
     pointer-events: none;
 }
@@ -1511,6 +1524,19 @@ header nav {
     background-size: cover;
     background-position: center;
     background-blend-mode: overlay;
+    position: relative;
+}
+
+.category-tile-3::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+    pointer-events: none;
 }
 
 .category-tile-4 {
@@ -1524,8 +1550,16 @@ header nav {
     padding: 40px;
 }
 
+.category-tile-1 .category-tile-content {
+    z-index: 2;
+}
+
 .category-tile-2 .category-tile-content {
-    z-index: 3;
+    z-index: 2;
+}
+
+.category-tile-3 .category-tile-content {
+    z-index: 2;
 }
 
 .category-tile-title {
@@ -1549,8 +1583,8 @@ header nav {
 }
 
 .category-tile-2 .category-tile-title {
-    color: var(--color-text-primary);
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9);
+    color: var(--color-white);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .category-tile.coming-soon {

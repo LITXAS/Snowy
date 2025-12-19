@@ -699,6 +699,44 @@ function inicializarFiltros() {
                         inicializarCarruselPorCategoria('camisetas');
                     }, 100);
                 }
+            } else if (filtro === 'camisetas') {
+                // Mostrar solo camisetas (todas, sin filtro de corte)
+                // Ocultar pantalones
+                const pantalonesCarousel = document.getElementById('productsGrid-pantalones');
+                const pantalonesSection = pantalonesCarousel ? pantalonesCarousel.closest('.category-section') : null;
+                if (pantalonesSection) {
+                    pantalonesSection.style.display = 'none';
+                }
+                
+                // Mostrar todas las camisetas
+                const camisetasCarousel = document.getElementById('productsGrid-camisetas');
+                const camisetasSection = camisetasCarousel ? camisetasCarousel.closest('.category-section') : null;
+                if (camisetasSection) {
+                    camisetasSection.style.display = 'block';
+                    renderizarProductosPorCategoria('camisetas', null);
+                    setTimeout(() => {
+                        inicializarCarruselPorCategoria('camisetas');
+                    }, 100);
+                }
+            } else if (filtro === 'pantalones') {
+                // Mostrar solo pantalones
+                // Ocultar camisetas
+                const camisetasCarousel = document.getElementById('productsGrid-camisetas');
+                const camisetasSection = camisetasCarousel ? camisetasCarousel.closest('.category-section') : null;
+                if (camisetasSection) {
+                    camisetasSection.style.display = 'none';
+                }
+                
+                // Mostrar todos los pantalones
+                const pantalonesCarousel = document.getElementById('productsGrid-pantalones');
+                const pantalonesSection = pantalonesCarousel ? pantalonesCarousel.closest('.category-section') : null;
+                if (pantalonesSection) {
+                    pantalonesSection.style.display = 'block';
+                    renderizarProductosPorCategoria('pantalones', null);
+                    setTimeout(() => {
+                        inicializarCarruselPorCategoria('pantalones');
+                    }, 100);
+                }
             } else if (filtro === 'todos') {
                 // Mostrar todos los productos sin filtro de corte
                 const categorias = ['camisetas', 'pantalones'];
