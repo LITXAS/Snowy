@@ -668,14 +668,21 @@ function inicializarFiltros() {
     }
     
     filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Obtener el filtro
-            const filtro = button.getAttribute('data-filter');
-            
-            // Remover clase active de todos los botones
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            // Agregar clase active al botón clickeado
-            button.classList.add('active');
+        // Solo manejar botones con data-filter (no enlaces)
+        if (button.hasAttribute('data-filter')) {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Obtener el filtro
+                const filtro = button.getAttribute('data-filter');
+                
+                // Remover clase active de todos los botones
+                filterButtons.forEach(btn => {
+                    if (btn.hasAttribute('data-filter')) {
+                        btn.classList.remove('active');
+                    }
+                });
+                // Agregar clase active al botón clickeado
+                button.classList.add('active');
             
             // Filtros de corte de camisetas
             const filtrosCorte = ['boxy', 'oversized', 'regular', 'otros'];
@@ -758,7 +765,8 @@ function inicializarFiltros() {
                     }
                 });
             }
-        });
+            });
+        }
     });
 }
 
