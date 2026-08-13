@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="description" content="Nuestros Básicos - Catálogo de Ropa">
-    <title>Nuestros Básicos - Catálogo de Ropa</title>
+    <meta name="description" content="Nuestros Básicos — Snowy">
+    <title>Nuestros Básicos — Snowy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <header>
+<body class="catalog-page">
+    <header class="header-solid">
         <div class="container">
-            <h1 class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">CATÁLOGO</a></h1>
+            <h1 class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">Snowy</a></h1>
             <nav>
                 <ul class="nav-menu">
                     <li><a href="index.html">Inicio</a></li>
@@ -88,7 +90,9 @@
                     <div class="detail-info">
                         <div class="detail-category" id="detailCategory"></div>
                         <h2 class="detail-name" id="detailName"></h2>
-                        <div class="detail-price" id="detailPrice"></div>
+                        <div class="detail-price-wrapper">
+                            <div class="detail-price" id="detailPrice"></div>
+                        </div>
                         <div class="detail-description" id="detailDescription"></div>
                         <button class="detail-add-to-cart-btn" id="detailAddToCartBtn" aria-label="Agregar al carrito">
                             <img src="Image/carrito.svg" alt="Carrito" class="detail-cart-icon">
@@ -102,7 +106,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Catálogo de Ropa. Todos los derechos reservados.</p>
+            <p>&copy; 2024 Snowy. Todos los derechos reservados.</p>
         </div>
     </footer>
 
@@ -139,4 +143,3 @@
     </div>
 </body>
 </html>
-
