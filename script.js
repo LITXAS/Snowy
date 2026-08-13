@@ -198,15 +198,17 @@ function mostrarNotificacion(mensaje) {
         position: fixed;
         top: 80px;
         right: 20px;
-        background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-blue-deep) 100%);
-        color: white;
+        background: var(--ink);
+        color: var(--paper);
         padding: 15px 25px;
-        border-radius: 8px;
-        box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+        border-radius: 0;
+        box-shadow: 0 8px 24px rgba(11, 12, 13, 0.25);
         z-index: 10001;
         animation: slideInRight 0.3s ease;
-        font-size: 14px;
-        letter-spacing: 0.5px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
     `;
     notificacion.textContent = mensaje;
     document.body.appendChild(notificacion);
@@ -221,118 +223,118 @@ function mostrarNotificacion(mensaje) {
 
 // Lista de todas las imágenes de camisetas en la carpeta
 const imagenesCamisetas = [
-    "Image/Camisetas/boxy Waffle frizado negro 1.png",
-    "Image/Camisetas/boxy Waffle frizado negro 2.png",
-    "Image/Camisetas/musculosa negro off-white 1.png",
-    "Image/Camisetas/musculosa negro off-white 2.png",
-    "Image/Camisetas/r.boxy azul liquid 1.png",
-    "Image/Camisetas/r.boxy azul liquid 2.png",
-    "Image/Camisetas/r.boxy blanca liquid 1.png",
-    "Image/Camisetas/r.boxy blanca liquid 2.png",
-    "Image/Camisetas/r.boxy blanca swet 1.png",
-    "Image/Camisetas/r.boxy blanca swet 2.png",
-    "Image/Camisetas/r.boxy blanca unknow. 1.png",
-    "Image/Camisetas/r.boxy blanca unknow. 2.png",
-    "Image/Camisetas/r.boxy celeste new division 1.png",
-    "Image/Camisetas/r.boxy celeste new division 2.png",
-    "Image/Camisetas/r.boxy celeste spirit 1.png",
-    "Image/Camisetas/r.boxy celeste spirit 2.png",
-    "Image/Camisetas/r.boxy morocco surf trip 1.png",
-    "Image/Camisetas/r.boxy morocco surf trip 2.png",
-    "Image/Camisetas/r.boxy negra liquid 1.png",
-    "Image/Camisetas/r.boxy negra liquid 2.png",
-    "Image/Camisetas/r.boxy negro Open GFX 1.png",
-    "Image/Camisetas/r.boxy negro Open GFX 2.png",
-    "Image/Camisetas/r.boxy nevada cobre half-half 1.png",
-    "Image/Camisetas/r.boxy nevada cobre half-half 2.png",
-    "Image/Camisetas/r.boxy nevada negro half-half 1.png",
-    "Image/Camisetas/r.boxy nevada negro half-half 2.png",
-    "Image/Camisetas/r.boxy nevada negro Noir 1.png",
-    "Image/Camisetas/r.boxy nevada negro Noir 2.png",
-    "Image/Camisetas/r.boxy nevada negro risk 1.png",
-    "Image/Camisetas/r.boxy nevada negro risk 2.png",
-    "Image/Camisetas/r.oversized blanca delayed visions 1.png",
-    "Image/Camisetas/r.oversized blanca delayed visions 2.png",
-    "Image/Camisetas/r.oversized blanca echelon clothing 1.png",
-    "Image/Camisetas/r.oversized blanca echelon clothing 2.png",
-    "Image/Camisetas/r.oversized blanca grish 1.png",
-    "Image/Camisetas/r.oversized blanca grish 2.png",
-    "Image/Camisetas/r.oversized blanca mount everest 1.png",
-    "Image/Camisetas/r.oversized blanca mount everest 2.png",
-    "Image/Camisetas/r.oversized blanca mythical creatures 1.png",
-    "Image/Camisetas/r.oversized blanca mythical creatures 2.png",
-    "Image/Camisetas/r.oversized blanca street 1.png",
-    "Image/Camisetas/r.oversized blanca street 2.png",
-    "Image/Camisetas/r.oversized blanca Stüssy 1.png",
-    "Image/Camisetas/r.oversized blanca Stüssy 2.png",
-    "Image/Camisetas/r.oversized blanca us-nyc 1.png",
-    "Image/Camisetas/r.oversized blanca us-nyc 2.png",
-    "Image/Camisetas/r.oversized crema take off 1.png",
-    "Image/Camisetas/r.oversized crema take off 2.png",
-    "Image/Camisetas/r.oversized gris claro palm angels 1.png",
-    "Image/Camisetas/r.oversized gris claro palm angels 2.png",
-    "Image/Camisetas/r.oversized gris claro you are too close 1.png",
-    "Image/Camisetas/r.oversized gris claro you are too close 2.png",
-    "Image/Camisetas/r.oversized negro palm angels 1.png",
-    "Image/Camisetas/r.oversized negro palm angels 2.png",
-    "Image/Camisetas/r.oversized nevada azul distortion world 1.png",
-    "Image/Camisetas/r.oversized nevada azul distortion world 2.png",
-    "Image/Camisetas/r.oversized nevada rojo start great 1.png",
-    "Image/Camisetas/r.oversized nevada rojo start great 2.png",
-    "Image/Camisetas/r.regular another day crema 1.png",
-    "Image/Camisetas/r.regular another day crema 2.png",
-    "Image/Camisetas/r.regular another day negro 1.png",
-    "Image/Camisetas/r.regular another day negro 2.png",
-    "Image/Camisetas/r.regular blanca EST 2022 1.png",
-    "Image/Camisetas/r.regular blanca EST 2022 2.png",
-    "Image/Camisetas/r.regular blanca Vision 1.png",
-    "Image/Camisetas/r.regular blanca Vision 2.png",
-    "Image/Camisetas/r.regular Contrast Stitch negra 1.png",
-    "Image/Camisetas/r.regular Contrast Stitch negra 2.png",
-    "Image/Camisetas/r.regular lisa gris 1.png",
-    "Image/Camisetas/r.regular lisa gris 2.png",
-    "Image/Camisetas/r.regular nevada negra atelier amelot 1.png",
-    "Image/Camisetas/r.regular nevada negra atelier amelot 2.png",
-    "Image/Camisetas/r.regular nevada negro SSS 1.png",
-    "Image/Camisetas/r.regular nevada negro SSS 2.png",
-    "Image/Camisetas/r.regular rojo endlessly 1.png",
-    "Image/Camisetas/r.regular rojo endlessly 2.png",
-    "Image/Camisetas/remera boxy custom motors negra 1.png",
-    "Image/Camisetas/remera boxy custom motors negra 2.png",
-    "Image/Camisetas/remera boxy custom motors verde 1.png",
-    "Image/Camisetas/remera boxy custom motors verde 2.png",
-    "Image/Camisetas/remera boxy morley rayada beige 1.png",
-    "Image/Camisetas/remera boxy morley rayada beige 2.png",
-    "Image/Camisetas/remera boxy negro Swet 1.png",
-    "Image/Camisetas/remera boxy negro Swet 2.png",
-    "Image/Camisetas/remera boxy nevada negra 1.png",
-    "Image/Camisetas/remera boxy nevada negra 2.png",
-    "Image/Camisetas/remera boxy nevada negra colab 1.png",
-    "Image/Camisetas/remera boxy nevada negra colab 2.png",
-    "Image/Camisetas/remera champion L salmon 1.png",
-    "Image/Camisetas/remera champion L salmon 2.png",
-    "Image/Camisetas/remera L levi's amarilla 1.png",
-    "Image/Camisetas/remera L levi's amarilla 2.png",
-    "Image/Camisetas/remera L levi's verde 1.png",
-    "Image/Camisetas/remera L levi's verde 2.png",
-    "Image/Camisetas/remera M celeste Nike  1.png",
-    "Image/Camisetas/remera M celeste Nike  2.png",
-    "Image/Camisetas/remera oversized acids 1.png",
-    "Image/Camisetas/remera oversized acids 2.png",
-    "Image/Camisetas/remera oversized Dream crema 1.png",
-    "Image/Camisetas/remera oversized Dream crema 2.png",
-    "Image/Camisetas/remera oversized Dream negra 1.png",
-    "Image/Camisetas/remera oversized Dream negra 2.png",
-    "Image/Camisetas/remera oversized marron dollar 1.png",
-    "Image/Camisetas/remera oversized marron dollar 2.png",
-    "Image/Camisetas/remera oversized negra DR 1.png",
-    "Image/Camisetas/remera oversized negra DR 2.png",
-    "Image/Camisetas/remera oversized negro ocs 1.png",
-    "Image/Camisetas/remera oversized negro ocs 2.png",
-    "Image/Camisetas/remera XL Hilfiger 1.png",
-    "Image/Camisetas/remera XL Hilfiger 2.png",
-    "Image/Camisetas/remera XL marron tommy hilfiger 1.png",
-    "Image/Camisetas/remera XL marron tommy hilfiger 2.png"
+"Image/Camisetas/boxy Waffle frizado negro 1.webp",
+"Image/Camisetas/boxy Waffle frizado negro 2.webp",
+"Image/Camisetas/musculosa negro off-white 1.webp",
+"Image/Camisetas/musculosa negro off-white 2.webp",
+"Image/Camisetas/r.boxy azul liquid 1.webp",
+"Image/Camisetas/r.boxy azul liquid 2.webp",
+"Image/Camisetas/r.boxy blanca liquid 1.webp",
+"Image/Camisetas/r.boxy blanca liquid 2.webp",
+"Image/Camisetas/r.boxy blanca swet 1.webp",
+"Image/Camisetas/r.boxy blanca swet 2.webp",
+"Image/Camisetas/r.boxy blanca unknow. 1.webp",
+"Image/Camisetas/r.boxy blanca unknow. 2.webp",
+"Image/Camisetas/r.boxy celeste new division 1.webp",
+"Image/Camisetas/r.boxy celeste new division 2.webp",
+"Image/Camisetas/r.boxy celeste spirit 1.webp",
+"Image/Camisetas/r.boxy celeste spirit 2.webp",
+"Image/Camisetas/r.boxy morocco surf trip 1.webp",
+"Image/Camisetas/r.boxy morocco surf trip 2.webp",
+"Image/Camisetas/r.boxy negra liquid 1.webp",
+"Image/Camisetas/r.boxy negra liquid 2.webp",
+"Image/Camisetas/r.boxy negro Open GFX 1.webp",
+"Image/Camisetas/r.boxy negro Open GFX 2.webp",
+"Image/Camisetas/r.boxy nevada cobre half-half 1.webp",
+"Image/Camisetas/r.boxy nevada cobre half-half 2.webp",
+"Image/Camisetas/r.boxy nevada negro half-half 1.webp",
+"Image/Camisetas/r.boxy nevada negro half-half 2.webp",
+"Image/Camisetas/r.boxy nevada negro Noir 1.webp",
+"Image/Camisetas/r.boxy nevada negro Noir 2.webp",
+"Image/Camisetas/r.boxy nevada negro risk 1.webp",
+"Image/Camisetas/r.boxy nevada negro risk 2.webp",
+"Image/Camisetas/r.oversized blanca delayed visions 1.webp",
+"Image/Camisetas/r.oversized blanca delayed visions 2.webp",
+"Image/Camisetas/r.oversized blanca echelon clothing 1.webp",
+"Image/Camisetas/r.oversized blanca echelon clothing 2.webp",
+"Image/Camisetas/r.oversized blanca grish 1.webp",
+"Image/Camisetas/r.oversized blanca grish 2.webp",
+"Image/Camisetas/r.oversized blanca mount everest 1.webp",
+"Image/Camisetas/r.oversized blanca mount everest 2.webp",
+"Image/Camisetas/r.oversized blanca mythical creatures 1.webp",
+"Image/Camisetas/r.oversized blanca mythical creatures 2.webp",
+"Image/Camisetas/r.oversized blanca street 1.webp",
+"Image/Camisetas/r.oversized blanca street 2.webp",
+"Image/Camisetas/r.oversized blanca Stüssy 1.webp",
+"Image/Camisetas/r.oversized blanca Stüssy 2.webp",
+"Image/Camisetas/r.oversized blanca us-nyc 1.webp",
+"Image/Camisetas/r.oversized blanca us-nyc 2.webp",
+"Image/Camisetas/r.oversized crema take off 1.webp",
+"Image/Camisetas/r.oversized crema take off 2.webp",
+"Image/Camisetas/r.oversized gris claro palm angels 1.webp",
+"Image/Camisetas/r.oversized gris claro palm angels 2.webp",
+"Image/Camisetas/r.oversized gris claro you are too close 1.webp",
+"Image/Camisetas/r.oversized gris claro you are too close 2.webp",
+"Image/Camisetas/r.oversized negro palm angels 1.webp",
+"Image/Camisetas/r.oversized negro palm angels 2.webp",
+"Image/Camisetas/r.oversized nevada azul distortion world 1.webp",
+"Image/Camisetas/r.oversized nevada azul distortion world 2.webp",
+"Image/Camisetas/r.oversized nevada rojo start great 1.webp",
+"Image/Camisetas/r.oversized nevada rojo start great 2.webp",
+"Image/Camisetas/r.regular another day crema 1.webp",
+"Image/Camisetas/r.regular another day crema 2.webp",
+"Image/Camisetas/r.regular another day negro 1.webp",
+"Image/Camisetas/r.regular another day negro 2.webp",
+"Image/Camisetas/r.regular blanca EST 2022 1.webp",
+"Image/Camisetas/r.regular blanca EST 2022 2.webp",
+"Image/Camisetas/r.regular blanca Vision 1.webp",
+"Image/Camisetas/r.regular blanca Vision 2.webp",
+"Image/Camisetas/r.regular Contrast Stitch negra 1.webp",
+"Image/Camisetas/r.regular Contrast Stitch negra 2.webp",
+"Image/Camisetas/r.regular lisa gris 1.webp",
+"Image/Camisetas/r.regular lisa gris 2.webp",
+"Image/Camisetas/r.regular nevada negra atelier amelot 1.webp",
+"Image/Camisetas/r.regular nevada negra atelier amelot 2.webp",
+"Image/Camisetas/r.regular nevada negro SSS 1.webp",
+"Image/Camisetas/r.regular nevada negro SSS 2.webp",
+"Image/Camisetas/r.regular rojo endlessly 1.webp",
+"Image/Camisetas/r.regular rojo endlessly 2.webp",
+"Image/Camisetas/remera boxy custom motors negra 1.webp",
+"Image/Camisetas/remera boxy custom motors negra 2.webp",
+"Image/Camisetas/remera boxy custom motors verde 1.webp",
+"Image/Camisetas/remera boxy custom motors verde 2.webp",
+"Image/Camisetas/remera boxy morley rayada beige 1.webp",
+"Image/Camisetas/remera boxy morley rayada beige 2.webp",
+"Image/Camisetas/remera boxy negro Swet 1.webp",
+"Image/Camisetas/remera boxy negro Swet 2.webp",
+"Image/Camisetas/remera boxy nevada negra 1.webp",
+"Image/Camisetas/remera boxy nevada negra 2.webp",
+"Image/Camisetas/remera boxy nevada negra colab 1.webp",
+"Image/Camisetas/remera boxy nevada negra colab 2.webp",
+"Image/Camisetas/remera champion L salmon 1.webp",
+"Image/Camisetas/remera champion L salmon 2.webp",
+"Image/Camisetas/remera L levi's amarilla 1.webp",
+"Image/Camisetas/remera L levi's amarilla 2.webp",
+"Image/Camisetas/remera L levi's verde 1.webp",
+"Image/Camisetas/remera L levi's verde 2.webp",
+"Image/Camisetas/remera M celeste Nike  1.webp",
+"Image/Camisetas/remera M celeste Nike  2.webp",
+"Image/Camisetas/remera oversized acids 1.webp",
+"Image/Camisetas/remera oversized acids 2.webp",
+"Image/Camisetas/remera oversized Dream crema 1.webp",
+"Image/Camisetas/remera oversized Dream crema 2.webp",
+"Image/Camisetas/remera oversized Dream negra 1.webp",
+"Image/Camisetas/remera oversized Dream negra 2.webp",
+"Image/Camisetas/remera oversized marron dollar 1.webp",
+"Image/Camisetas/remera oversized marron dollar 2.webp",
+"Image/Camisetas/remera oversized negra DR 1.webp",
+"Image/Camisetas/remera oversized negra DR 2.webp",
+"Image/Camisetas/remera oversized negro ocs 1.webp",
+"Image/Camisetas/remera oversized negro ocs 2.webp",
+"Image/Camisetas/remera XL Hilfiger 1.webp",
+"Image/Camisetas/remera XL Hilfiger 2.webp",
+"Image/Camisetas/remera XL marron tommy hilfiger 1.webp",
+"Image/Camisetas/remera XL marron tommy hilfiger 2.webp"
 ];
 
 // Función para codificar URLs de imágenes con espacios
@@ -347,7 +349,7 @@ function obtenerNombreBase(imagen) {
     // Remover la ruta y obtener solo el nombre del archivo
     const nombreArchivo = imagen.split('/').pop();
     // Remover la extensión
-    const sinExtension = nombreArchivo.replace(/\.(png|jpg|jpeg|heic|HEIC)$/i, '');
+    const sinExtension = nombreArchivo.replace(/\.(png|jpg|jpeg|heic|webp)$/i, '');
     // Remover comillas y espacios extra
     let nombreLimpio = sinExtension.replace(/[""]/g, '').trim();
     // Remover el número final (formato: "nombre 1", "nombre 2", "nombre-1", "nombre-2")
@@ -587,7 +589,7 @@ function renderizarProductosPorCategoria(categoria, filtroCorte = null) {
     }
 
     if (productosFiltrados.length === 0) {
-        productsGrid.innerHTML = '<p style="text-align: center; color: var(--color-gray-medium); padding: 40px;">No hay productos en esta categoría.</p>';
+        productsGrid.innerHTML = '<p style="text-align: center; color: var(--fog); padding: 40px;">No hay productos en esta categoría.</p>';
         return;
     }
 
@@ -1343,38 +1345,49 @@ function inicializarCarruselPorCategoria(categoria) {
         }
     }
     
-    // Función para calcular el ancho de scroll
-    function calcularAnchoScroll() {
+    // Ir a la tarjeta que corresponde al hacer click en una flecha.
+    // A diferencia de scrollBy() con un valor calculado (que va sumando
+    // pequeños errores de redondeo en cada click hasta "corromper" la
+    // alineación), esta función SIEMPRE recalcula desde cero, en cada
+    // click, en base a la posición real de las tarjetas en el DOM
+    // (offsetLeft) y al scroll actual real (scrollLeft). Por eso nunca
+    // puede desalinearse, sin importar cuántas veces se toque la flecha.
+    function irATarjeta(direccion) {
+        const cards = carousel.querySelectorAll('.product-card');
+        if (cards.length === 0) return;
+
         const isMobile = window.innerWidth <= 480;
-        if (isMobile) {
-            // En móviles, calcular el ancho del producto + gap
-            const firstCard = carousel.querySelector('.product-card');
-            if (firstCard) {
-                const cardWidth = firstCard.offsetWidth;
-                const gap = 20; // gap del carrusel
-                return cardWidth + gap;
+        const tarjetasPorClick = isMobile ? 1 : 3;
+        const scrollActual = carousel.scrollLeft;
+
+        // Encontrar cuál es la primera tarjeta visible ahora mismo,
+        // comparando su posición real contra el scroll actual real.
+        let indiceActual = 0;
+        for (let i = 0; i < cards.length; i++) {
+            if (cards[i].offsetLeft <= scrollActual + 5) {
+                indiceActual = i;
+            } else {
+                break;
             }
-            return window.innerWidth - 80; // fallback
         }
-        return 320; // desktop
-    }
-    
-    // Scroll izquierdo
-    leftBtn.addEventListener('click', () => {
-        const scrollAmount = calcularAnchoScroll();
-        carousel.scrollBy({
-            left: -scrollAmount,
+
+        let indiceObjetivo = indiceActual + (direccion * tarjetasPorClick);
+        indiceObjetivo = Math.max(0, Math.min(indiceObjetivo, cards.length - 1));
+
+        carousel.scrollTo({
+            left: cards[indiceObjetivo].offsetLeft,
             behavior: 'smooth'
         });
+    }
+
+    // Scroll izquierdo
+    leftBtn.addEventListener('click', () => {
+        irATarjeta(-1);
     });
     
     // Scroll derecho
     rightBtn.addEventListener('click', () => {
-        const scrollAmount = calcularAnchoScroll();
-        carousel.scrollBy({
-            left: scrollAmount,
-            behavior: 'smooth'
-        });
+        irATarjeta(1);
     });
     
     // Actualizar botones al hacer scroll
@@ -1608,7 +1621,7 @@ function renderizarCatalogoCompleto(categoria) {
     }
     
     if (productosFiltrados.length === 0) {
-        catalogGrid.innerHTML = '<p style="text-align: center; color: var(--color-gray-medium); padding: 40px; grid-column: 1 / -1;">No hay productos en esta categoría.</p>';
+        catalogGrid.innerHTML = '<p style="text-align: center; color: var(--fog); padding: 40px; grid-column: 1 / -1;">No hay productos en esta categoría.</p>';
         return;
     }
     
@@ -1743,4 +1756,3 @@ function ordenarProductos(orden, productosLista) {
         animarProductos();
     }, 100);
 }
-
