@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="description" content="Catálogo de ropa minimalista con diseño elegante">
-    <title>Catálogo de Ropa - Minimalista</title>
+    <meta name="description" content="Snowy — ropa urbana minimalista">
+    <title>Snowy — Catálogo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
+    <header id="siteHeader">
         <div class="container">
-            <h1 class="logo"></h1>
+            <h1 class="logo">Snowy</h1>
             <nav>
                 <ul class="nav-menu">
                     <li><a href="#inicio" class="active">Inicio</a></li>
@@ -29,7 +31,7 @@
         <section class="hero">
             <div class="container">
                 <h2>Snowy</h2>
-                <p>Ropa elegante y atemporal</p>
+                <p>Ropa urbana, minimalista y atemporal</p>
             </div>
         </section>
 
@@ -150,7 +152,7 @@
         <!-- Sección de Contacto -->
         <section class="contact-section" id="contacto">
             <div class="container">
-                <h2 class="contact-title">CONTACTO</h2>
+                <h2 class="contact-title">Contacto</h2>
                 <p class="contact-subtitle">Síguenos en nuestras redes sociales</p>
                 <div class="contact-links">
                     <a href="https://wa.me/5492962409327?text=Hola,+quiero+hacer+una+consulta" 
@@ -171,7 +173,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Catálogo de Ropa. Todos los derechos reservados.</p>
+            <p>&copy; 2024 Snowy. Todos los derechos reservados.</p>
         </div>
     </footer>
 
@@ -197,6 +199,21 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // Header sólido al hacer scroll (mejora visual, no afecta script.js)
+        (function () {
+            var header = document.getElementById('siteHeader');
+            if (!header) return;
+            var onScroll = function () {
+                if (window.scrollY > 40) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
+    </script>
 </body>
 </html>
-
